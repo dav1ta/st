@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "Liberation Mono:pixelsize=18:antialias=true:autohint=true";
+static char *font =  "DejaVuSansM Nerd Font:pixelsize=16:antialias=true:autohint=true";
 static int borderpx=5;
 
 /*
@@ -76,7 +76,7 @@ static int bellvolume = 0;
 /* default TERM value */
 char *termname = "st-256color";
 /* bg opacity */
-float alpha = 0.85;
+float alpha = 1;
 
 
 /*
@@ -99,44 +99,39 @@ unsigned int tabspaces = 8;
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
 	/* 8 normal colors */
- "#282828", /* hard contrast: #1d2021 / soft contrast: #32302f */
- "#ea6962", /* red     */
- "#a9b665", /* green   */
- "#d8a657", /* yellow  */
- "#7daea3", /* blue    */
- "#d3869b", /* magenta */
- "#89b482", /* cyan    */
- "#d4be98", /* white   */
-
-  /* 8 bright colors */
- "#928374", /* black   */
- "#ef938e", /* red     */
- "#bbc585", /* green   */
- "#e1bb7e", /* yellow  */
- "#9dc2ba", /* blue    */
- "#e1acbb", /* magenta */
- "#a7c7a2", /* cyan    */
- "#e2d3ba", /* white   */
-
-	[255] = 0,
-
-	/* more colors can be added after 255 to use with DefaultXX */
-	"#282a36",
-	"#f8f8f2",
-	"gray90", /* default foreground colour */
-	"#17171a", /* default background colour */
-};
+    /* 8 normal colors */
+    [0] = "#000000", /* black   */
+    [1] = "#ff5555", /* red     */
+    [2] = "#50fa7b", /* green   */
+    [3] = "#f1fa8c", /* yellow  */
+    [4] = "#bd93f9", /* blue    */
+    [5] = "#ff79c6", /* magenta */
+    [6] = "#8be9fd", /* cyan    */
+    [7] = "#bbbbbb", /* white   */
+                                  
+    /* 8 bright colors */
+    [8]  = "#44475a", /* black   */
+    [9]  = "#ff5555", /* red     */
+    [10] = "#50fa7b", /* green   */
+    [11] = "#f1fa8c", /* yellow  */
+    [12] = "#bd93f9", /* blue    */
+    [13] = "#ff79c6", /* magenta */
+    [14] = "#8be9fd", /* cyan    */
+    [15] = "#ffffff", /* white   */
+                                   
+    /* special colors */
+    [256] = "#282a36", /* background */
+    [257] = "#f8f8f2", /* foreground */
+ };
 
 
 /*
- * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
  */
-unsigned int defaultfg = 15;
-unsigned int defaultbg = 0;
+unsigned int defaultfg = 257;
+unsigned int defaultbg = 256;
 unsigned int defaultcs = 257;
 static unsigned int defaultrcs = 257;
-
 /*
  * Default shape of cursor
  * 2: Block ("█")
@@ -145,6 +140,19 @@ static unsigned int defaultrcs = 257;
  * 7: Snowman ("☃")
  */
 static unsigned int cursorshape = 2;
+
+ /*
+ * Colors used, when the specific fg == defaultfg. So in reverse mode this
+ * will reverse too. Another logic would only make the simple feature too
+ * complex.
+ */
+unsigned int defaultitalic = 7;
+unsigned int defaultunderline = 7;
+
+/*
+  * Default shape of cursor
+  * 2: Block ("â–ˆ")
+  * 4: Underline ("_")
 
 /*
  * Default columns and rows numbers
@@ -198,16 +206,16 @@ static Shortcut shortcuts[] = {
 	{ ControlMask,          XK_Print,       toggleprinter,  {.i =  0} },
 	{ ShiftMask,            XK_Print,       printscreen,    {.i =  0} },
 	{ XK_ANY_MOD,           XK_Print,       printsel,       {.i =  0} },
-	{ TERMMOD,              XK_Prior,       zoom,           {.f = +1} },
-	{ TERMMOD,              XK_Next,        zoom,           {.f = -1} },
+	{ TERMMOD,              XK_KP_Add,       zoom,           {.f = +1} },
+	{ TERMMOD,              XK_KP_Subtract,        zoom,           {.f = -1} },
 	{ TERMMOD,              XK_Home,        zoomreset,      {.f =  0} },
 	{ TERMMOD,              XK_C,           clipcopy,       {.i =  0} },
 	{ TERMMOD,              XK_V,           clippaste,      {.i =  0} },
 	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
 	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
-	{ ShiftMask,            XK_Page_Up,     kscrollup,      {.i = -1} },
-	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
+	{ ShiftMask,            XK_Page_Up,     kscrollup,      {.i = -5} },
+	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -5} },
 };
 
 /*
